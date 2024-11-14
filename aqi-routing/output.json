@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "location": "Main Gate",
+    "coordinates": [
+      17.445888725925958,
+      78.35133068238748
+    ],
+    "aqi": 10
+  },
+  {
+    "id": 2,
+    "location": "OBH",
+    "coordinates": [
+      17.44545087758107,
+      78.34628212536876
+    ],
+    "aqi": 20
+  },
+  {
+    "id": 3,
+    "location": "Nilgiri",
+    "coordinates": [
+      17.447418,
+      78.348986
+    ],
+    "aqi": 30
+  },
+  {
+    "id": 4,
+    "location": "Vindhya",
+    "coordinates": [
+      17.445351,
+      78.348644
+    ],
+    "aqi": 40
+  },
+  {
+    "id": 5,
+    "location": "Vindhya A4",
+    "coordinates": [
+      17.44554886380476,
+      78.349582159474
+    ],
+    "aqi": 50
+  },
+  {
+    "id": 6,
+    "location": "sahana",
+    "coordinates": [
+      17.446521,
+      78.347453
+    ],
+    "aqi": 60
+  }
+]

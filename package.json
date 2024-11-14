@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@geoman-io/leaflet-geoman-free": "^2.17.0",
+    "leaflet-routing-machine": "^3.2.12"
+  }
+}
