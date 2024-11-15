@@ -62,9 +62,9 @@ body {
   height: 100%;
 }
 
-/* AQI Legend Styling */
-.aqi-legend {
-  position: absolute;
+
+/* .aqi-legend {
+  position: fixed;
   top: 80px;
   right: 400px;
   background-color: rgba(255, 255, 255, 0.9);
@@ -74,6 +74,19 @@ body {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
   z-index: 1000;
 }
+ */
+
+.aqi-legend {
+  position: fixed;
+  top: 80px;
+  right: 400px;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
 
 .aqi-legend h3 {
   font-size: 18px;

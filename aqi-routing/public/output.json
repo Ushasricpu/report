@@ -48,9 +48,27 @@
     "id": 6,
     "location": "football",
     "coordinates": [
+      17.446501,
+      78.34823
+    ],
+    "aqi": 246
+  },
+  {
+    "id": 7,
+    "location": "football node2",
+    "coordinates": [
       17.446335,
       78.34897
     ],
-    "aqi": 246
+    "aqi": 300
+  },
+  {
+    "id": 8,
+    "location": "t-hub node2",
+    "coordinates": [
+      17.445842,
+      78.348556
+    ],
+    "aqi": 350
   }
 ]

@@ -7,15 +7,14 @@ import Component from './Component_data';  // corrected import path
 import Route from './Route';      
 import MapComponent from './MapComponent'; 
 
-
 const routeData = {
   "type": "FeatureCollection",
   "name": "roads",
   "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
   "features": [
-    { "type": "Feature", "properties": { "id": 5, "Distance": 391, "Time": "1 min 28 sec" }, "geometry": { "type": "MultiLineString", "coordinates": [ [ [ 78.351570437469903, 17.446012891683182 ], [ 78.351227930209461, 17.445744954943638 ], [ 78.351138878321748, 17.44580377035922 ], [ 78.351029275998428, 17.44576456008426 ], [ 78.349577045214204, 17.446967004680022 ], [ 78.348823529241258, 17.446110917221226 ], [ 78.349022183452291, 17.445954076335063 ] ] ] } },
-    { "type": "Feature", "properties": { "id": 6, "Distance": 498, "Time": "1 min 53 sec" }, "geometry": { "type": "MultiLineString", "coordinates": [ [ [ 78.351577287615072, 17.445999821607458 ], [ 78.351221080064249, 17.445751489990752 ], [ 78.351221080064249, 17.445653464259454 ], [ 78.351200529628628, 17.445588113742645 ], [ 78.351036126143626, 17.445522763202423 ], [ 78.349871601458162, 17.444359519667124 ], [ 78.348302918205405, 17.445535833312334 ], [ 78.348823529241258, 17.446143592388868 ], [ 78.348974232435836, 17.445993286569262 ] ] ] } },
-    { "type": "Feature", "properties": { "id": 7, "Distance": 437, "Time": "1 min 39 sec" }, "geometry": { "type": "MultiLineString", "coordinates": [ [ [ 78.351597838050708, 17.446006356645441 ], [ 78.351234780354687, 17.445744954943638 ], [ 78.351077227014883, 17.445790700268503 ], [ 78.350988175127171, 17.445744954943638 ], [ 78.350960774546323, 17.445607718900149 ], [ 78.351001875417566, 17.445561973529372 ], [ 78.350323711041924, 17.444823510955761 ], [ 78.349022183452291, 17.445921401133461 ] ] ] } },
+    { "type": "Feature", "properties": { "id": 5, "Distance": 391, "Time": "1 min 28 sec" }, "geometry": { "type": "MultiLineString", "coordinates": [ [[  78.351330682387484,17.445888725925958 ], [ 78.351227930209461, 17.445744954943638 ], [ 78.351138878321748, 17.44580377035922 ], [ 78.351029275998428, 17.44576456008426 ], [ 78.349577045214204, 17.446967004680022 ],[78.348970,17.446335],  [ 78.348823529241258, 17.446110917221226 ], [ 78.349022183452291, 17.445954076335063 ] ] ] } },
+    { "type": "Feature", "properties": { "id": 6, "Distance": 498, "Time": "1 min 53 sec" }, "geometry": { "type": "MultiLineString", "coordinates": [ [[78.348556,17.445842], [ 78.348644,17.445351],[ 78.351330682387484,17.445888725925958 ], [ 78.351221080064249, 17.445751489990752 ], [ 78.351221080064249, 17.445653464259454 ], [ 78.351200529628628, 17.445588113742645 ], [ 78.351036126143626, 17.445522763202423 ], [ 78.349871601458162, 17.444359519667124 ], [ 78.348302918205405, 17.445535833312334 ], [ 78.348823529241258, 17.446143592388868 ], [ 78.348974232435836, 17.445993286569262 ] ] ] } },
+    { "type": "Feature", "properties": { "id": 7, "Distance": 437, "Time": "1 min 39 sec" }, "geometry": { "type": "MultiLineString", "coordinates": [ [[ 78.351330682387484,17.445888725925958 ], [ 78.351597838050708, 17.446006356645441 ], [ 78.351234780354687, 17.445744954943638 ], [ 78.351077227014883, 17.445790700268503 ], [ 78.350988175127171, 17.445744954943638 ], [ 78.350960774546323, 17.445607718900149 ], [ 78.351001875417566, 17.445561973529372 ], [ 78.350323711041924, 17.444823510955761 ],[78.349582159474,17.44554886380476],  [ 78.349022183452291, 17.445921401133461 ] ] ] } },
      ]
 };
 
@@ -90,95 +89,142 @@ const MyMapComponent = () => {
 
   return (
     <div className="page">
-      {/* Navbar */}
+    {page === 'map' && (
+      <div className="container">
+        {/* Left Panel with two iframes */}
+        <div className="left-panel">
+          <iframe 
+            src="https://smartcitylivinglab.iiit.ac.in/grafana/d-solo/kyLuJXQ7z/summary-view?orgId=1&from=1730337505906&to=1731633505906&panelId=38" 
+            width="100%" 
+            height="200" 
+            frameBorder="0"
+          ></iframe>
+          <iframe 
+            src="https://smartcitylivinglab.iiit.ac.in/grafana/d-solo/kyLuJXQ7z/summary-view?orgId=1&from=1730337553851&to=1731633553851&panelId=31" 
+            width="100%" 
+            height="200" 
+            frameBorder="0"
+          ></iframe>
+        </div>
 
-      {/* Map Container */}
-      {page === 'map' && (
-  <div className="map-container">
-    <MapContainer center={[17.445888725925958, 78.351330682387484]} zoom={16} style={{ width: '100%', height: '100%' }}>
-      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      {bestRoute && bestRoute.id && (
-        <GeoJSON
-          key={bestRoute.id}
-          data={routeData.features.find(route => route.properties.id === bestRoute.id)}
-          style={{
-            color: 'blue',
-            weight: 5,
-            opacity: 0.7
-          }}
-        />
-      )}
-      {filteredNodes.map(node => (
+        {/* Map Container */}
+        <div className="map-container">
+          <MapContainer 
+            center={[17.445888725925958, 78.351330682387484]} 
+            zoom={16} 
+            style={{ width: '100%', height: '100%' }}
+          >
+            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+            {bestRoute && bestRoute.id && (
+              <GeoJSON
+                key={bestRoute.id}
+                data={routeData.features.find(route => route.properties.id === bestRoute.id)}
+                style={{
+                  color: 'blue',
+                  weight: 5,
+                  opacity: 0.7
+                }}
+                onEachFeature={(feature, layer) => {
+                  layer.on('mouseover', () => {
+                    layer.bindPopup(`
+                      <strong>Route ${feature.properties.id}</strong><br />
+                      Distance: ${feature.properties.Distance} <br />
+                      Time: ${feature.properties.Time}
+                    `).openPopup();
+                  });
+                  layer.on('mouseout', () => {
+                    layer.closePopup();
+                  });
+                }}
+              />
+            )}
+            {filteredNodes.map(node => (
+              <Marker key={node.id} position={node.coordinates} icon={customIcon}>
+                <Popup>
+                  <strong>{node.id}</strong><br />
+                  <strong>{node.location}</strong><br />
+                  AQI: {node.aqi}
+                </Popup>
+              </Marker>
+            ))}
+            {nodeData.map(node => (
         <Marker key={node.id} position={node.coordinates} icon={customIcon}>
           <Popup>
-            <strong>{node.id}</strong><br />
             <strong>{node.location}</strong><br />
             AQI: {node.aqi}
           </Popup>
         </Marker>
       ))}
-      {nodeData.map(node => (
-        <Marker key={node.id} position={node.coordinates} icon={customIcon}>
-          <Popup>
-            <strong>{node.location}</strong><br />
-            AQI: {node.aqi}
-          </Popup>
-        </Marker>
-      ))}
-      {showCircles && nodeData.map(node => (
-        <Circle
-          key={node.id}
-          center={node.coordinates}
-          radius={50}
-          pathOptions={{ color: 'blue', fillColor: 'blue', fillOpacity: 0.2 }}
-        />
-      ))}
-    </MapContainer>
-  </div>
-)}
+            {showCircles && nodeData.map(node => (
+              <Circle
+                key={node.id}
+                center={node.coordinates}
+                radius={50}
+                pathOptions={{ color: 'blue', fillColor: 'blue', fillOpacity: 0.2 }}
+              />
+            ))}
+          </MapContainer>
+        </div>
 
+        {/* Right Panel with two iframes */}
+        <div className="right-panel">
+          <iframe 
+            src="https://smartcitylivinglab.iiit.ac.in/grafana/d-solo/kyLuJXQ7z/summary-view?orgId=1&from=1730340914090&to=1731636914090&panelId=55"
+            width="100%" 
+            height="200" 
+            frameBorder="0"
+          ></iframe>
+          <iframe 
+            src="https://smartcitylivinglab.iiit.ac.in/grafana/d-solo/kyLuJXQ7z/summary-view?orgId=1&from=1730337580781&to=1731633580781&panelId=30" 
+            width="100%" 
+            height="200" 
+            frameBorder="0"
+          ></iframe>
+        </div>
+      </div>
+    )}
+    {page === 'mapcomponent' && <MapComponent />}
+    {page === 'route' && <Route />}
+    {page === 'component' && <Component />}
 
-      <div className="aqi-legend">
-        <h3>Select Location</h3>
-        {page === 'map' && (
-          <div className="search-container">
-            <div className="dropdown">
-              <select onChange={(e) => setSource(e.target.value)} value={source}>
-                <option value="">Source</option>
-                <option value="OBH">OBH</option>
-                <option value="Main Gate">Main Gate</option>
-                <option value="T-Hub">T-Hub</option>
-              </select>
-            </div>
-            <div className="dropdown">
-              <select onChange={(e) => setDestination(e.target.value)} value={destination}>
-                <option value="">Destination</option>
-                <option value="OBH">OBH</option>
-                <option value="Main Gate">Main Gate</option>
-                <option value="T-Hub">T-Hub</option>
-              </select>
-            </div>
-            <button className="search-icon" onClick={handleSearch}>
-              <FaSearch />
-            </button>
-          </div>
-        )}
-        <h3>Route AQI Information</h3>
-        <ul>
-          {routeAQIs.map(route => (
-            <li key={route.id}>Route {route.id}: {route.aqi} AQI</li>
-          ))}
-        </ul>
-        <button onClick={() => setShowCircles(!showCircles)}>
-          {showCircles ? 'Hide Range' : 'Show Range'}
+    <div className="aqi-legend">
+  {page === 'map' && (
+    <>
+      <h3>Select Location</h3>
+      <div className="search-container">
+        <div className="dropdown">
+          <select onChange={(e) => setSource(e.target.value)} value={source}>
+            <option value="OBH">OBH</option>
+            <option value="Main Gate">Main Gate</option>
+            <option value="T-Hub">T-Hub</option>
+          </select>
+        </div>
+        <div className="dropdown">
+          <select onChange={(e) => setDestination(e.target.value)} value={destination}>
+            <option value="OBH">OBH</option>
+            <option value="Main Gate">Main Gate</option>
+            <option value="T-Hub">T-Hub</option>
+          </select>
+        </div>
+        <button className="search-icon" onClick={handleSearch}>
+          <FaSearch />
         </button>
       </div>
+      <h3>Route AQI Information</h3>
+      <ul>
+        {routeAQIs.map(route => (
+          <li key={route.id}>Route {route.id}: {route.aqi} AQI</li>
+        ))}
+      </ul>
+      <button onClick={() => setShowCircles(!showCircles)}>
+        {showCircles ? 'Hide Range' : 'Show Range'}
+      </button>
+    </>
+  )}
 
-      {/* Conditional Component Rendering */}
-      {page==='mapcomponent' && <MapComponent/>}
-      {page === 'route' && <Route />}
-      {page === 'component' && <Component />}
-    </div>
+</div>
+
+  </div>
   );
 };
 
