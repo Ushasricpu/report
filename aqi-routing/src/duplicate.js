@@ -5,6 +5,8 @@ import './MapStyles.css'; // Import the custom CSS file
 import { FaSearch } from 'react-icons/fa';
 import Component from './Component_data';  // corrected import path
 import Route from './Route';      
+import MapComponent from './MapComponent'; 
+
 
 const routeData = {
   "type": "FeatureCollection",
@@ -18,24 +20,24 @@ const routeData = {
   ]
 };
 
-
 const MyMapComponent = () => {
   const [nodeData, setNodeData] = useState([]);
   const [showCircles, setShowCircles] = useState(false);
-  const [source, setSource] = useState('');
-  const [destination, setDestination] = useState('');
+  const [source, setSource] = useState('Main Gate');  // Default to 'Main Gate'
+  const [destination, setDestination] = useState('OBH');  // Default to 'OBH'  
   const [routes, setRoutes] = useState([]);
+  const [page, setPage] = useState('map');  // Track the current page (map, route, or component)
 
   const handleSearch = () => {
-    // Logic to fetch routes based on source and destination
-    if (source === 'obh' && destination === 'maingate' || source === 'maingate' && destination === 'obh') {
+    if ((source === 'OBH' && destination === 'Main Gate') || (source === 'Main Gate' && destination === 'OBH')) {
       setRoutes(["Route 1", "Route 2", "Route 3", "Route 4"]);
-    } else if ((source === 'obh' && destination === 't-hub') || (source === 't-hub' && destination === 'obh')) {
-      // Render Component.js if OBH to T-Hub or vice versa
+      setPage('mapcomponent');  // Redirect to Route page
+    } else if ((source === 'OBH' && destination === 'T-Hub') || (source === 'T-Hub' && destination === 'OBH')) {
       setRoutes([]);
-    } else if ((source === 'main gate' && destination === 't-hub') || (source === 't-hub' && destination === 'main gate')) {
-      // Render Route.js if Main Gate to T-Hub or vice versa
+      setPage('route');  // Redirect to Component page
+    } else if ((source === 'Main Gate' && destination === 'T-Hub') || (source === 'T-Hub' && destination === 'Main Gate')) {
       setRoutes([]);
+      setPage('component');  // Redirect to Component page
     }
   };
 
@@ -93,128 +95,104 @@ const MyMapComponent = () => {
       <nav className="navbar">
         <h2>AQI Route Map</h2>
       </nav>
-      <div class="container">
-      <div class="left-panel">
- 
-  </div>
-      {/* Map Container */}
-      <div className="map-container">
-        <MapContainer center={[17.445888725925958, 78.351330682387484]} zoom={16} style={{ width: '100%', height: '100%' }}>
-          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-          {/* Display only the route with the lowest AQI */}
-          {bestRoute && bestRoute.id && (
-            <GeoJSON
-              key={bestRoute.id}
-              data={routeData.features.find(route => route.properties.id === bestRoute.id)}
-              style={{
-                color: 'blue',
-                weight: 5,
-                opacity: 0.7
-              }}
-            />
-          )}
-          {filteredNodes.map(node => (
-            <Marker key={node.id} position={node.coordinates} icon={customIcon}>
-              <Popup>
-                <strong>{node.id}</strong><br />
-                <strong>{node.location}</strong><br />
-                AQI: {node.aqi}
-              </Popup>
-            </Marker>
-          ))}
-          {nodeData.map(node => (
-            <Marker key={node.id} position={node.coordinates} icon={customIcon}>
-              <Popup>
-              {/* <strong>{node.id}</strong><br /> */}
-                <strong>{node.location}</strong><br />
-                AQI: {node.aqi}
-              </Popup>
-            </Marker>
-          ))}
-          {showCircles && nodeData.map(node => (
-            <Circle
-              key={node.id}
-              center={node.coordinates}
-              radius={50}
-              pathOptions={{ color: 'blue', fillColor: 'blue', fillOpacity: 0.2 }}
-            />
-          ))}
-        </MapContainer>
+    <div className='container'>
+    <div className='left-panel'>
+    <iframe src="https://smartcitylivinglab.iiit.ac.in/grafana/d-solo/kyLuJXQ7z/summary-view?orgId=1&from=1730337505906&to=1731633505906&panelId=38" width="450" height="200" frameborder="0"></iframe>
+    <iframe src="https://smartcitylivinglab.iiit.ac.in/grafana/d-solo/kyLuJXQ7z/summary-view?orgId=1&from=1730337533252&to=1731633533252&panelId=53" width="450" height="200" frameborder="0"></iframe>
+    </div>
 
-        {/* AQI Legend */}
-        <div className="aqi-legend">
+      {/* Map Container */}
+      {page === 'map' && (
+  <div className="map-container">
+    <MapContainer center={[17.445888725925958, 78.351330682387484]} zoom={16} style={{ width: '100%', height: '100%' }}>
+      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      {bestRoute && bestRoute.id && (
+        <GeoJSON
+          key={bestRoute.id}
+          data={routeData.features.find(route => route.properties.id === bestRoute.id)}
+          style={{
+            color: 'blue',
+            weight: 5,
+            opacity: 0.7
+          }}
+        />
+      )}
+      {filteredNodes.map(node => (
+        <Marker key={node.id} position={node.coordinates} icon={customIcon}>
+          <Popup>
+            <strong>{node.id}</strong><br />
+            <strong>{node.location}</strong><br />
+            AQI: {node.aqi}
+          </Popup>
+        </Marker>
+      ))}
+      {nodeData.map(node => (
+        <Marker key={node.id} position={node.coordinates} icon={customIcon}>
+          <Popup>
+            <strong>{node.location}</strong><br />
+            AQI: {node.aqi}
+          </Popup>
+        </Marker>
+      ))}
+      {showCircles && nodeData.map(node => (
+        <Circle
+          key={node.id}
+          center={node.coordinates}
+          radius={50}
+          pathOptions={{ color: 'blue', fillColor: 'blue', fillOpacity: 0.2 }}
+        />
+      ))}
+    </MapContainer>
+  </div>
+)}
+
+
+      <div className="aqi-legend">
         <h3>Select Location</h3>
-        <div className="search-container">
-        <div className="dropdown">
-          <select onChange={(e) => setSource(e.target.value)} value={source}>
-            <option value="">Source</option>
-            <option value="OBH">OBH</option>
-            <option value="Main Gate">Main Gate</option>
-            <option value="T-Hub">T-Hub</option>
-          </select>
-        </div>
-        <div className="dropdown">
-          <select onChange={(e) => setDestination(e.target.value)} value={destination}>
-            <option value="">Destination</option>
-            <option value="OBH">OBH</option>
-            <option value="Main Gate">Main Gate</option>
-            <option value="T-Hub">T-Hub</option>
-          </select>
-        </div>
-        <button className="search-icon">
-          <FaSearch />
+        {page === 'map' && (
+          <div className="search-container">
+            <div className="dropdown">
+              <select onChange={(e) => setSource(e.target.value)} value={source}>
+                <option value="">Source</option>
+                <option value="OBH">OBH</option>
+                <option value="Main Gate">Main Gate</option>
+                <option value="T-Hub">T-Hub</option>
+              </select>
+            </div>
+            <div className="dropdown">
+              <select onChange={(e) => setDestination(e.target.value)} value={destination}>
+                <option value="">Destination</option>
+                <option value="OBH">OBH</option>
+                <option value="Main Gate">Main Gate</option>
+                <option value="T-Hub">T-Hub</option>
+              </select>
+            </div>
+            <button className="search-icon" onClick={handleSearch}>
+              <FaSearch />
+            </button>
+          </div>
+        )}
+        <h3>Route AQI Information</h3>
+        <ul>
+          {routeAQIs.map(route => (
+            <li key={route.id}>Route {route.id}: {route.aqi} AQI</li>
+          ))}
+        </ul>
+        <button onClick={() => setShowCircles(!showCircles)}>
+          {showCircles ? 'Hide Range' : 'Show Range'}
         </button>
       </div>
-      <h3>Route AQI Information</h3>
-      <ul>
-        {routeAQIs.map(route => (
-          <li key={route.id}>Route {route.id}: {route.aqi} AQI</li>
-        ))}
-      </ul>
-      <button onClick={() => setShowCircles(!showCircles)}>
-        {showCircles ? 'Hide Range' : 'Show Range'}
-      </button>
 
+      {/* Conditional Component Rendering */}
+      {page==='mapcomponent' && <MapComponent/>}
+      {page === 'route' && <Route />}
+      {page === 'component' && <Component />}
     </div>
-  </div>
-</div>
-<div class="right-panel">
-   </div>
-   <div>
-      <input
-        type="text"
-        value={source}
-        onChange={(e) => setSource(e.target.value)}
-        placeholder="Enter source"
-      />
-      <input
-        type="text"
-        value={destination}
-        onChange={(e) => setDestination(e.target.value)}
-        placeholder="Enter destination"
-      />
-      <button onClick={handleSearch}>Search</button>
-
-      {routes.length > 0 && (
-        <div>
-          <h3>Available Routes:</h3>
-          <ul>
-            {routes.map((route, index) => (
-              <li key={index}>{route}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {source === 'obh' && destination === 't-hub' || source === 't-hub' && destination === 'obh' ? (
-        <Component />
-      ) : source === 'main gate' && destination === 't-hub' || source === 't-hub' && destination === 'main gate' ? (
-        <Route />
-      ) : null}
+    <div className='right-panel'>
+    <iframe src="https://smartcitylivinglab.iiit.ac.in/grafana/d-solo/kyLuJXQ7z/summary-view?orgId=1&from=1730337553851&to=1731633553851&panelId=31" width="450" height="200" frameborder="0"></iframe>
+    <iframe src="https://smartcitylivinglab.iiit.ac.in/grafana/d-solo/kyLuJXQ7z/summary-view?orgId=1&from=1730337580781&to=1731633580781&panelId=30" width="450" height="200" frameborder="0"></iframe>
     </div>
-
-</div>
-
+    </div>
   );
 };
 
