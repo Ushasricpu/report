@@ -104,8 +104,8 @@ const MyMapComponent = () => {
       height="200" 
       frameBorder="0"
     ></iframe>
-    <iframe 
-      src="https://smartcitylivinglab.iiit.ac.in/grafana/d-solo/kyLuJXQ7z/summary-view?orgId=1&from=1730337533252&to=1731633533252&panelId=53" 
+       <iframe 
+      src="https://smartcitylivinglab.iiit.ac.in/grafana/d-solo/kyLuJXQ7z/summary-view?orgId=1&from=1730337553851&to=1731633553851&panelId=31" 
       width="100%" 
       height="200" 
       frameBorder="0"
@@ -176,8 +176,9 @@ const MyMapComponent = () => {
 
   {/* Right Panel with two iframes */}
   <div className="right-panel">
-    <iframe 
-      src="https://smartcitylivinglab.iiit.ac.in/grafana/d-solo/kyLuJXQ7z/summary-view?orgId=1&from=1730337553851&to=1731633553851&panelId=31" 
+
+      <iframe 
+      src="https://smartcitylivinglab.iiit.ac.in/grafana/d-solo/kyLuJXQ7z/summary-view?orgId=1&from=1730340914090&to=1731636914090&panelId=55"
       width="100%" 
       height="200" 
       frameBorder="0"
